@@ -1,0 +1,108 @@
+﻿@model IEnumerable<XPTO_Project.Nota>
+
+<!-- Bootstrap CSS -->
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+
+<!-- Bootstrap Bundle com Popper -->
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<!-- Adicionar espaçamento da navbar -->
+<div class="mt-5 d-flex justify-content-start">
+    <!-- Botão de Ordenação -->
+    @Html.ActionLink("Ordenar por Nº da OS", "Index", new { sortOrder = ViewBag.SortOrder }, new { @class = "btn btn-dark" })
+</div>
+
+<table class="table mt-3">
+    <tr class="table-dark table-align">
+        <th scope="row">
+            Nº da OS
+        </th>
+        <th scope="row">
+            Título de Serviço
+        </th>
+        <th>
+            Nome do Cliente
+        </th>
+        <th scope="row" class="align">
+            Valor do Serviço
+        </th>
+        <th scope="row">
+            Data de Execução
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.nOS, new { @class = "nOS-content" })
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TituloServico)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NomeCliente)
+            </td>
+            <td>
+                @String.Format(System.Globalization.CultureInfo.GetCultureInfo("pt-BR"), "{0:C}", item.ValorServico)
+            </td>
+            <td>
+                @(item.DataExecucao.HasValue ? item.DataExecucao.Value.ToString("dd/MM/yyyy") : "Data não informada")
+            </td>
+            <td class="d-flex">
+                @Html.ActionLink("Detalhes", "Details", new { id = item.Id }, new { @class = "btn btn-info home-details" })
+                @Html.ActionLink("Editar", "Edit", new { id = item.Id }, new { @class = "btn btn-success home-editar" })
+                @Html.ActionLink("Deletar", "Delete", new { id = item.Id }, new { @class = "btn btn-danger home-delete" })
+            </td>
+        </tr>
+    }
+
+</table>
+<div class="form-group">
+    <a href="/Home/Create" class="btn btn-dark btn-create-home">Nova OS</a>
+</div>
+
+<div class="modal fade" id="confirmDeleteModal" tabindex="-1" aria-labelledby="confirmDeleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="confirmDeleteModalLabel">Confirmar Exclusão</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>Tem certeza que deseja deletar esta OS?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="confirmDeleteButton" class="btn btn-danger">Deletar</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Função para mostrar o modal
+    function showDeleteModal(deleteUrl) {
+        var modal = new bootstrap.Modal(document.getElementById('confirmDeleteModal'));
+        var confirmButton = document.getElementById('confirmDeleteButton');
+
+        modal.show();
+
+        confirmButton.onclick = function () {
+            window.location.href = deleteUrl; // Redireciona para a URL de exclusão
+        };
+    }
+
+    // Adiciona evento aos botões de deletar
+    document.querySelectorAll(".home-delete").forEach(function (button) {
+        button.onclick = function (event) {
+            event.preventDefault(); // Impede o comportamento padrão do link
+            showDeleteModal(this.href);
+        };
+    });
+</script>
