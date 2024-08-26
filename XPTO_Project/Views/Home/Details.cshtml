@@ -1,0 +1,88 @@
+﻿@model XPTO_Project.Nota
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Detalhes da Nota</h2>
+
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            Nº da OS
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.nOS)
+        </dd>
+
+        <dt>
+            Titulo do Serviço
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TituloServico)
+        </dd>
+
+        <dt>
+            CNPJ do Cliente
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CNPJCliente)
+        </dd>
+
+        <dt>
+            Nome do Cliente
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.NomeCliente)
+        </dd>
+
+        <dt>
+            CPF do Prestador de Serviço
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CPFPrestadorServico)
+        </dd>
+
+        <dt>
+            Nome do Prestador de Serviço
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.NomePrestadorServico)
+        </dd>
+
+        <dt>
+            Data de Execução
+        </dt>
+
+        <dd>
+            @String.Format("{0:dd/MM/yyyy}", Model.DataExecucao)
+
+        </dd>
+
+        <dt>
+            Valor de Serviço
+        </dt>
+
+        <dd>
+            @String.Format(new System.Globalization.CultureInfo("pt-BR"), "R$ {0:N2}", Model.ValorServico)
+        </dd>
+
+    </dl>
+</div>
+
+<div class="row">
+    <div class="col-md-12 d-flex justify-content-end">
+        <p>
+            @Html.ActionLink("Editar", "Edit", new { id = Model.Id }, new { @class = "btn btn-success btn-details" })
+        </p>
+    </div>
+</div>
+
+
